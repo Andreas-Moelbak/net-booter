@@ -1,0 +1,16 @@
+---
+version: '3'
+
+services:
+  web:
+    build: nginx
+    ports:
+      - 80:80
+    volumes:
+      - /home/ansible/web/:/web/
+
+  ipxe:
+    build: pxe
+    network_mode: 'host'
+    cap_add:
+      - NET_ADMIN

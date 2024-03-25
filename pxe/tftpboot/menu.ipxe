@@ -1,0 +1,28 @@
+#!ipxe
+
+:start
+    menu PXE Boot Options
+    item ubuntu-22.04-lts Ubuntu 22.04 autoinstall
+    item shell iPXE shell
+    item exit  Exit to BIOS
+
+    choose --default ubuntu-22.04-lts --timeout 10000 option && goto ${option}
+
+:ubuntu-22.04-lts
+    set server_root http://172.20.172.123/media/ubuntu-22.04
+    set seed_url ${server_root}/templates/
+    set vmlinuz_url ${server_root}/vmlinuz
+    set initrd_url ${server_root}/initrd
+    set iso_url ${server_root}/ubuntu22.04-lts.iso
+    #kernel ${vmlinuz_url} initrd=initrd url=${iso_url} autoinstall ip=dhcp ds=nocloud-net;s=${seed_url} cloud-config-url=/dev/null
+    kernel ${vmlinuz_url} initrd=initrd url=${iso_url} autoinstall ip=dhcp cloud-config-url=${seed_url}user-data
+    initrd ${initrd_url}
+    boot
+
+
+
+:shell
+    shell
+
+:exit
+    exit
